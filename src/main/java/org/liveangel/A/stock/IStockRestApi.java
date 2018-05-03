@@ -10,7 +10,7 @@ import java.io.IOException;
  *
  */
 public interface IStockRestApi {
-
+    public String test();
       /**
        * 行情
        * @param symbol btc_usd:比特币    ltc_usd :莱特币

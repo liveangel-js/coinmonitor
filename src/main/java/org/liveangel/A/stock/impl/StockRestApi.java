@@ -1,20 +1,27 @@
 package org.liveangel.A.stock.impl;
 
 
+import org.apache.commons.jcs.utils.zip.CompressionUtil;
 import org.liveangel.A.PriceCraw;
 import org.liveangel.A.StringUtil;
 import org.liveangel.A.stock.IStockRestApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 
 @Component
@@ -96,6 +103,9 @@ public class StockRestApi implements IStockRestApi {
      */
     private final String ORDER_HISTORY_URL = "/api/v1/order_history.do";
 
+    @Autowired
+    private HttpHeaders headers;
+
     @Override
     public String ticker(String symbol) {
         String param = "";
@@ -106,8 +116,29 @@ public class StockRestApi implements IStockRestApi {
             param += "symbol=" + symbol;
         }
         String url = getUrl(url_prex, TICKER_URL, param);
-        String result = restTemplate.getForObject(url, String.class);
-        return result;
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+//        headers.set("Referer", url);
+//        String result = restTemplate.getForObject(url, entity,String.class);
+//        ResponseEntity<String> result  = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+        byte[] responseBytes = restTemplate.exchange(url, HttpMethod.GET, entity, byte[].class).getBody();
+        String decompressed = null;
+
+        try {
+            decompressed= new String(CompressionUtil.decompressGzipByteArray(responseBytes), "UTF-8");
+        } catch (IOException e) {
+//            LOGGER.error("network call failed.", e);
+        }
+        return decompressed;
+    }
+
+    public String test() {
+
+        String url = "https://WWW.BAIDU.COM";
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+        headers.set("Referer", url);
+        ResponseEntity<String> result  = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+        return result.getBody();
     }
 
     private String getUrl(String url_prex, String url, String param) {
