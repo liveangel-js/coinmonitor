@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class PriceCraw {
     private Logger logger = LoggerFactory.getLogger(PriceCraw.class);
 
-    @Scheduled(fixedDelayString = "1000")
+    @Scheduled(fixedRateString = "1000")
     public void test(){
 
         logger.info("dd");

@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OkexApplication {
+public class AlexApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OkexApplication.class, args);
+		SpringApplication.run(AlexApplication.class, args);
 	}
 }
