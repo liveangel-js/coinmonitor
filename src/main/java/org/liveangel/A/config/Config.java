@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,23 +31,15 @@ public class Config {
     private ProxyConfig proxyConfig;
 
     @Bean
-    public RestTemplate createNormalRestTemplate(){
+    public RestTemplate createNormalRestTemplate() {
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
         requestFactory.setReadTimeout(readTimeout);
         requestFactory.setConnectTimeout(connectionTimeout);
-//        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(
-//                HttpClientBuilder.create().build());
-        if(proxyConfig.getEnabled()){
-            Properties props = System.getProperties();
-//            props.put("http.proxyHost", "127.0.0.1");
-//
-//            props.put("http.proxyPort", "8118");
+        if (proxyConfig.getEnabled()) {
             SocketAddress address = new InetSocketAddress(proxyConfig.getHost(), proxyConfig.getPort());
             Proxy proxy = new Proxy(Proxy.Type.HTTP, address);
             requestFactory.setProxy(proxy);
         }
-
-
 
         RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(requestFactory));
         restTemplate.setInterceptors(setInterceptors());
@@ -65,7 +58,7 @@ public class Config {
     }
 
     @Bean
-    public HttpHeaders createHeader(){
+    public HttpHeaders createHeader() {
         HttpHeaders headers = new HttpHeaders();
 
         headers.set("Accept", "text/html, */*; q=0.01");
