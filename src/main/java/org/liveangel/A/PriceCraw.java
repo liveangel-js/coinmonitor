@@ -27,11 +27,10 @@ public class PriceCraw {
     @Autowired
     private StockRestApi stockRestApi;
 
-//    @Scheduled(fixedRateString = "1000")
+    @Scheduled(fixedRateString = "1000")
     public void test(){
 
-        logger.info("dd");
-        String result = stockRestApi.ticker("ltc_btc");
+        String result = stockRestApi.ticker("btc_usdt");
         logger.info(result);
 
     }
