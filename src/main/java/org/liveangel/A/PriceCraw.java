@@ -15,23 +15,23 @@ import org.springframework.web.client.RestTemplate;
 public class PriceCraw {
     private Logger logger = LoggerFactory.getLogger(PriceCraw.class);
 
-    private String secret_key;
-
-    private String api_key;
-
-    private String url_prex;
-
-    @Autowired
-    private RestTemplate restTemplate;
 
     @Autowired
     private StockRestApi stockRestApi;
 
+    @Autowired
+    private MailService mailService;
 
-    @Scheduled(fixedRateString = "1000")
+
+    @Scheduled(fixedRateString = "1000000000")
     public void test(){
 
         String result = stockRestApi.ticker("btc_usdt");
+        try {
+            mailService.sendSimpleMail("448576871@qq.com", "比特币价格", result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         logger.info(result);
 
     }
