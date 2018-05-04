@@ -8,6 +8,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Map;
+
 /**
  * Created by liveangel on 2018-5-2.
  */
@@ -27,8 +29,12 @@ public class PriceCraw {
     public void test(){
 
         String result = stockRestApi.ticker("btc_usdt");
+
+        Map<String, Object> price = JacksonUtils.fromJson(result, Map.class);
+        String nowPrice = (String)((Map<String, Object>)price.get("ticker")).get("buy");
+
         try {
-            mailService.sendSimpleMail("448576871@qq.com", "比特币价格", result);
+            mailService.sendSimpleMail("243651117@qq.com", "BTC Price " + nowPrice, result);
         } catch (Exception e) {
             e.printStackTrace();
         }
