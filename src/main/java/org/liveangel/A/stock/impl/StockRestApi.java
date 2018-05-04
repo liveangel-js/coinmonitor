@@ -2,6 +2,7 @@ package org.liveangel.A.stock.impl;
 
 
 import org.apache.commons.jcs.utils.zip.CompressionUtil;
+import org.liveangel.A.utils.JacksonUtils;
 import org.liveangel.A.utils.StringUtil;
 import org.liveangel.A.stock.IStockRestApi;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.Map;
 
 
 @Component
@@ -101,7 +103,7 @@ public class StockRestApi implements IStockRestApi {
     private HttpHeaders headers;
 
     @Override
-    public String ticker(String symbol) {
+    public Map<String, Object> ticker(String symbol) {
         String param = "";
         if (!StringUtil.isEmpty(symbol)) {
             if (!param.equals("")) {
@@ -111,29 +113,28 @@ public class StockRestApi implements IStockRestApi {
         }
         String url = getUrl(url_prex, TICKER_URL, param);
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-//        headers.set("Referer", url);
-//        String result = restTemplate.getForObject(url, entity,String.class);
-//        ResponseEntity<String> result  = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-        byte[] responseBytes = restTemplate.exchange(url, HttpMethod.GET, entity, byte[].class).getBody();
+        return responseGzipToJson(restTemplate.exchange(url, HttpMethod.GET, entity, byte[].class));
+    }
+
+    private Map<String, Object> responseGzipToJson(ResponseEntity<byte[]> responseEntity){
+        byte[] response = responseEntity.getBody();
         String decompressed = null;
+        if(response!=null){
 
-        try {
-            decompressed= new String(CompressionUtil.decompressGzipByteArray(responseBytes), "UTF-8");
-        } catch (IOException e) {
-//            LOGGER.error("network call failed.", e);
+
+            try {
+                decompressed= new String(CompressionUtil.decompressGzipByteArray(response), "UTF-8");
+            } catch (IOException e) {
+                logger.error("network call failed.", e);
+            }
         }
-        return decompressed;
+        Map<String, Object> price = null;
+        if(decompressed!=null){
+            price = JacksonUtils.fromJson(decompressed, Map.class);
+        }
+        return price;
     }
 
-    public String test() {
-
-        String url = "https://WWW.BAIDU.COM";
-        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        headers.set("Referer", url);
-        ResponseEntity<String> result  = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-
-        return result.getBody();
-    }
 
     private String getUrl(String url_prex, String url, String param) {
         url = url_prex + url;

@@ -2,6 +2,7 @@ package org.liveangel.A.stock;
 
 
 import java.io.IOException;
+import java.util.Map;
 
 
 /**
@@ -10,14 +11,13 @@ import java.io.IOException;
  *
  */
 public interface IStockRestApi {
-    public String test();
       /**
        * 行情
        * @param symbol btc_usd:比特币    ltc_usd :莱特币
        * @return
        * @throws IOException 
       */
-       public String ticker(String symbol) throws  IOException;
+       public Map<String, Object> ticker(String symbol) throws  IOException;
 
 //       /**
 //        * 市场深度

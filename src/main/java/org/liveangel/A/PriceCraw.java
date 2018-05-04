@@ -29,17 +29,16 @@ public class PriceCraw {
     @Scheduled(fixedRateString = "1000000000")
     public void test(){
 
-        String result = stockRestApi.ticker("btc_usdt");
 
-        Map<String, Object> price = JacksonUtils.fromJson(result, Map.class);
+        Map<String, Object> price = stockRestApi.ticker("btc_usdt");;
         String nowPrice = (String)((Map<String, Object>)price.get("ticker")).get("buy");
 
         try {
-            mailService.sendSimpleMail("243651117@qq.com", "BTC Price " + nowPrice, result);
+            mailService.sendSimpleMail("448576871@qq.com", "BTC Price " + nowPrice, price.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        logger.info(result);
+        logger.info("{}",price);
 
     }
 
