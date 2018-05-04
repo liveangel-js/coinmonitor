@@ -50,7 +50,6 @@ public class Config {
 
 
         RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(requestFactory));
-//        restTemplate.getInterceptors().add(new LoggingRequestInterceptor());
         restTemplate.setInterceptors(setInterceptors());
         return restTemplate;
     }
@@ -75,14 +74,6 @@ public class Config {
         headers.set("Accept-Language", "zh-CN,zh;q=0.8");
         headers.set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:46.0) Gecko/20100101 Firefox/46.0");
         headers.setContentType(MediaType.parseMediaType("application/x-www-form-urlencoded; charset=UTF-8"));
-
-
-//        Map<String, String> headers = new HashMap<String, String>();
-//        headers.put("Referer", url);
-
-//        headers.setAccept(Collections.singletonList(MediaType.TEXT_HTML));
-//        headers.setAcceptLanguage(Locale.LanguageRange.parse("zh-CN,zh;q=0.8"));
-//        headers.set
         return headers;
     }
 
