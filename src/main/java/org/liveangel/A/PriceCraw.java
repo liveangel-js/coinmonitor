@@ -27,6 +27,7 @@ public class PriceCraw {
     @Autowired
     private StockRestApi stockRestApi;
 
+
     @Scheduled(fixedRateString = "1000")
     public void test(){
 

@@ -37,7 +37,7 @@ public class AlexApplication {
 
 
 		ConfigurableApplicationContext configurableApplicationContext = SpringApplication.run(AlexApplication.class, args);
-		PriceCraw priceCraw = (PriceCraw) configurableApplicationContext.getBean("priceCraw");
-		priceCraw.test();
+//		PriceCraw priceCraw = (PriceCraw) configurableApplicationContext.getBean("priceCraw");
+//		priceCraw.test();
 	}
 }
