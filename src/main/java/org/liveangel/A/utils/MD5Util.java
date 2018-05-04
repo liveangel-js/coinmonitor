@@ -1,4 +1,4 @@
-package org.liveangel.A;
+package org.liveangel.A.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -1,4 +1,4 @@
-package org.liveangel.A;
+package org.liveangel.A.utils;
 
 public class StringUtil {
 

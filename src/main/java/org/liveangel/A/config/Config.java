@@ -1,6 +1,5 @@
 package org.liveangel.A.config;
 
-import org.liveangel.A.ProxyConfig;
 import org.liveangel.A.network.LoggingRequestInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

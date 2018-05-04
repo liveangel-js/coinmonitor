@@ -2,8 +2,7 @@ package org.liveangel.A.stock.impl;
 
 
 import org.apache.commons.jcs.utils.zip.CompressionUtil;
-import org.liveangel.A.PriceCraw;
-import org.liveangel.A.StringUtil;
+import org.liveangel.A.utils.StringUtil;
 import org.liveangel.A.stock.IStockRestApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,16 +11,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.zip.GZIPInputStream;
 
 
 @Component

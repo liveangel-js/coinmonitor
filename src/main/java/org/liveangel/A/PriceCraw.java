@@ -1,12 +1,13 @@
 package org.liveangel.A;
 
+import org.liveangel.A.mail.MailService;
 import org.liveangel.A.stock.impl.StockRestApi;
+import org.liveangel.A.utils.JacksonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
