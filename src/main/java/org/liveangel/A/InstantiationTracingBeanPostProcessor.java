@@ -18,8 +18,8 @@ public class InstantiationTracingBeanPostProcessor implements ApplicationListene
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         LOGGER.info("Application ContextRefreshedEvent");
-        LOGGER.info("ÎÒµÄ¸¸ÈİÆ÷Îª£º" + event.getApplicationContext().getParent());
-        LOGGER.info("³õÊ¼»¯Ê±ÎÒ±»µ÷ÓÃÁË¡£");
+        LOGGER.info("æˆ‘çš„çˆ¶å®¹å™¨ä¸ºï¼š" + event.getApplicationContext().getParent());
+        LOGGER.info("åˆå§‹åŒ–æ—¶æˆ‘è¢«è°ƒç”¨äº†ã€‚");
 
     }
 }
