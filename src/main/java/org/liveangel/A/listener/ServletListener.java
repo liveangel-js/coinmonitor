@@ -1,4 +1,4 @@
-package org.liveangel.A;
+package org.liveangel.A.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,14 +17,14 @@ public class ServletListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        LOGGER.info("contextInitialized");
+        LOGGER.info("Servlet ÈÝÆ÷ contextInitialized");
 
 
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        LOGGER.info("contextDestroyed");
+        LOGGER.info("Servlet ÈÝÆ÷ contextDestroyed");
 
     }
 }
