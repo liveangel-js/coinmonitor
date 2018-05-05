@@ -1,6 +1,8 @@
 package org.liveangel.A.stock;
 
 
+import org.liveangel.A.domain.TickerTape;
+
 import java.io.IOException;
 import java.util.Map;
 
@@ -17,7 +19,7 @@ public interface IStockRestApi {
        * @return
        * @throws IOException 
       */
-       public Map<String, Object> ticker(String symbol) throws  IOException;
+       public TickerTape ticker(String symbol) throws  IOException;
 
 //       /**
 //        * 市场深度

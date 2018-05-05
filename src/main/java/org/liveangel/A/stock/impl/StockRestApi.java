@@ -2,6 +2,7 @@ package org.liveangel.A.stock.impl;
 
 
 import org.apache.commons.jcs.utils.zip.CompressionUtil;
+import org.liveangel.A.domain.TickerTape;
 import org.liveangel.A.utils.JacksonUtils;
 import org.liveangel.A.utils.StringUtil;
 import org.liveangel.A.stock.IStockRestApi;
@@ -18,10 +19,13 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.Map;
+import org.modelmapper.ModelMapper;
 
 
 @Component
 public class StockRestApi implements IStockRestApi {
+    private ModelMapper modelMapper = new ModelMapper();
+
     private Logger logger = LoggerFactory.getLogger(StockRestApi.class);
     @Autowired
     private RestTemplate restTemplate;
@@ -103,7 +107,7 @@ public class StockRestApi implements IStockRestApi {
     private HttpHeaders headers;
 
     @Override
-    public Map<String, Object> ticker(String symbol) {
+    public TickerTape ticker(String symbol) {
         String param = "";
         if (!StringUtil.isEmpty(symbol)) {
             if (!param.equals("")) {
@@ -113,26 +117,38 @@ public class StockRestApi implements IStockRestApi {
         }
         String url = getUrl(url_prex, TICKER_URL, param);
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        return responseGzipToJson(restTemplate.exchange(url, HttpMethod.GET, entity, byte[].class));
+
+
+        TickerTape tickerTape = JacksonUtils.fromJson(responseGzipToJson(restTemplate.exchange(url, HttpMethod.GET, entity, byte[].class)), TickerTape.class);
+        return tickerTape;
     }
 
-    private Map<String, Object> responseGzipToJson(ResponseEntity<byte[]> responseEntity){
+    private String mapToJson(Map<String, Object> map){
+        return JacksonUtils.toJosn(map);
+
+    }
+    private String responseGzipToJson(ResponseEntity<byte[]> responseEntity){
+        return mapToJson(this.responseGzipToMap(responseEntity));
+    }
+
+    private Map<String, Object> responseGzipToMap(ResponseEntity<byte[]> responseEntity){
         byte[] response = responseEntity.getBody();
         String decompressed = null;
         if(response!=null){
-
-
             try {
                 decompressed= new String(CompressionUtil.decompressGzipByteArray(response), "UTF-8");
             } catch (IOException e) {
                 logger.error("network call failed.", e);
             }
         }
-        Map<String, Object> price = null;
+        Map<String, Object> map = null;
         if(decompressed!=null){
-            price = JacksonUtils.fromJson(decompressed, Map.class);
+
+            map = JacksonUtils.fromJson(decompressed, Map.class);
         }
-        return price;
+
+        TickerTape tickerTape = JacksonUtils.fromJson(decompressed, TickerTape.class);
+        return map;
     }
 
 

@@ -1,5 +1,6 @@
 package org.liveangel.A;
 
+import org.liveangel.A.domain.TickerTape;
 import org.liveangel.A.mail.MailService;
 import org.liveangel.A.stock.impl.StockRestApi;
 import org.liveangel.A.utils.JacksonUtils;
@@ -29,16 +30,15 @@ public class PriceCraw {
     @Scheduled(fixedRateString = "1000000000")
     public void test(){
 
-
-        Map<String, Object> price = stockRestApi.ticker("btc_usdt");;
-        String nowPrice = (String)((Map<String, Object>)price.get("ticker")).get("buy");
+        TickerTape tickerTape = stockRestApi.ticker("btc_usdt");
+        String nowPrice = tickerTape.getTicker().getBuy();
 
         try {
-            mailService.sendSimpleMail("448576871@qq.com", "BTC Price " + nowPrice, price.toString());
+            mailService.sendSimpleMail("448576871@qq.com", "BTC Price " + nowPrice, tickerTape.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        logger.info("{}",price);
+        logger.info("{}",tickerTape);
 
     }
 
