@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.Map;
+
 import org.modelmapper.ModelMapper;
 
 
@@ -123,31 +124,30 @@ public class StockRestApi implements IStockRestApi {
         return tickerTape;
     }
 
-    private String mapToJson(Map<String, Object> map){
+    private String mapToJson(Map<String, Object> map) {
         return JacksonUtils.toJosn(map);
 
     }
-    private String responseGzipToJson(ResponseEntity<byte[]> responseEntity){
+
+    private String responseGzipToJson(ResponseEntity<byte[]> responseEntity) {
         return mapToJson(this.responseGzipToMap(responseEntity));
     }
 
-    private Map<String, Object> responseGzipToMap(ResponseEntity<byte[]> responseEntity){
+    private Map<String, Object> responseGzipToMap(ResponseEntity<byte[]> responseEntity) {
         byte[] response = responseEntity.getBody();
         String decompressed = null;
-        if(response!=null){
+        if (response != null) {
             try {
-                decompressed= new String(CompressionUtil.decompressGzipByteArray(response), "UTF-8");
+                decompressed = new String(CompressionUtil.decompressGzipByteArray(response), "UTF-8");
             } catch (IOException e) {
                 logger.error("network call failed.", e);
             }
         }
         Map<String, Object> map = null;
-        if(decompressed!=null){
+        if (decompressed != null) {
 
             map = JacksonUtils.fromJson(decompressed, Map.class);
         }
-
-        TickerTape tickerTape = JacksonUtils.fromJson(decompressed, TickerTape.class);
         return map;
     }
 
