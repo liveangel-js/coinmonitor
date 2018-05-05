@@ -26,16 +26,34 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 })
 public class Ticker {
 
+    /**
+     * 买一价
+     */
     @JsonProperty("buy")
     private String buy;
+    /**
+     * 24小时最高
+     */
     @JsonProperty("high")
     private String high;
+    /**
+     * 最新成交价
+     */
     @JsonProperty("last")
     private String last;
+    /**
+     * 24小时最低价
+     */
     @JsonProperty("low")
     private String low;
+    /**
+     * 卖一价
+     */
     @JsonProperty("sell")
     private String sell;
+    /**
+     * 24小时成交量
+     */
     @JsonProperty("vol")
     private String vol;
     @JsonIgnore

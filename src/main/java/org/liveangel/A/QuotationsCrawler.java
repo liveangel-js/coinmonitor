@@ -3,6 +3,7 @@ package org.liveangel.A;
 import org.liveangel.A.domain.TickerTape;
 import org.liveangel.A.mail.MailService;
 import org.liveangel.A.stock.impl.StockRestApi;
+import org.liveangel.A.utils.JacksonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,11 @@ public class QuotationsCrawler {
         String nowPrice = tickerTape.getTicker().getBuy();
 
         try {
-            mailService.sendSimpleMail("448576871@qq.com", "BTC Price " + nowPrice, tickerTape.toString());
+            mailService.sendSimpleMail("448576871@qq.com", "BTC Price " + nowPrice, JacksonUtils.toJosn(tickerTape));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        logger.info("{}",tickerTape);
+        logger.info("{}",JacksonUtils.toJosn(tickerTape));
     }
 
 }
