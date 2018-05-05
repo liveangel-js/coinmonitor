@@ -10,7 +10,7 @@ public class MailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    public void sendSimpleMail(String receiver, String title, String content) throws Exception {
+    public void sendSimpleMail(String receiver, String title, String content) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("448576871@qq.com");
         message.setTo(receiver);
